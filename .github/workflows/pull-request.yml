@@ -22,6 +22,7 @@ jobs:
         with:
           wait: 10000
           commit-hash: ${{ github.event.pull_request.head.sha }}
+      - run: pwd && ls -a
       - id: deployment
         uses: jsmrcaga/action-netlify-deploy@v1.7.2
         with:
@@ -29,6 +30,6 @@ jobs:
           NETLIFY_DEPLOY_TO_PROD: false
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           build_directory: .pr-site/publish
-          build_command: ''
+          build_command: echo hello world
           deploy_alias: pull-request-visualizer-${{ github.event.number }}
       - run: echo ${{ steps.deployment.outputs.NETLIFY_LIVE_URL}}
