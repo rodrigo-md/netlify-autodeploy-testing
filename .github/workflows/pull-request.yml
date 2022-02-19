@@ -34,3 +34,7 @@ jobs:
           build_command: echo hello world
           deploy_alias: pull-request-visualizer-${{ github.event.number }}
       - run: echo ${{ steps.deployment.outputs.NETLIFY_LIVE_URL}}
+      - uses: rodrigo-md/pull-request-visualizer/notify-deployment@testing-action
+        with:
+          website-url: ${{ steps.deployment.outputs.NETLIFY_LIVE_URL }}
+          GITHUB_TOKEN: $$ {{ github.token }}
