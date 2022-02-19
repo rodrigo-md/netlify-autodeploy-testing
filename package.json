@@ -1,0 +1,11 @@
+{
+  "name": "netlify-autodeploy-testing",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:rodrigo-md/netlify-autodeploy-testing.git",
+  "author": "Rodrigo Martinez <rodrigo.martinez.diaz@autodesk.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "node ./index.js"
+  }
+}
