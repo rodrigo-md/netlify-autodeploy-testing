@@ -37,4 +37,4 @@ jobs:
       - uses: rodrigo-md/pull-request-visualizer-action/notify-deployment@testing-action
         with:
           website-url: ${{ steps.deployment.outputs.NETLIFY_LIVE_URL }}
-          GITHUB_TOKEN: $$ {{ github.token }}
+          GITHUB_TOKEN: $${{ github.token }}
