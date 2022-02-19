@@ -24,7 +24,7 @@ jobs:
           commit-hash: ${{ github.event.pull_request.head.sha }}
           base-directory: ${{ github.workspace }}
       - run: pwd && ls -a
-      - id: deployment
+      - id: netlify-deployment
         uses: jsmrcaga/action-netlify-deploy@v1.7.2
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
@@ -33,8 +33,8 @@ jobs:
           build_directory: .pr-site/publish
           build_command: echo hello world
           deploy_alias: pull-request-visualizer-${{ github.event.number }}
-      - run: echo ${{ steps.deployment.outputs.NETLIFY_LIVE_URL}}
+      - run: echo ${{ steps.netlify-deployment.outputs.NETLIFY_LIVE_URL}}
       - uses: rodrigo-md/pull-request-visualizer-action/notify-deployment@testing-action
         with:
-          website-url: ${{ steps.deployment.outputs.NETLIFY_LIVE_URL }}
+          website-url: ${{ steps.netlify-deployment.outputs.NETLIFY_LIVE_URL }}
           GITHUB_TOKEN: ${{ github.token }}
