@@ -1,0 +1,24 @@
+name: Autogenerate site
+on:
+  pull_request:
+    branches: 
+    - master
+    - main
+jobs:
+  autogenerate-site:
+    runs-on: ubuntu-latest
+    name: Creating site for deployment
+
+    steps: 
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+      - name: Dump GitHub context
+        env: 
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo $GITHUB_CONTEXT
+      - uses: rodrigo-md/pull-request-visualizer-action/generate-site@testing-action
+        with:
+          wait: 10000
+          commit-hash: ${{ github.event.pull_request.head.sha }}
