@@ -1,0 +1,36 @@
+name: Autogenerate site
+on:
+  pull_request:
+    branches: 
+    - master
+    - main
+jobs:
+  autogenerate-site:
+    runs-on: ubuntu-latest
+    name: Creating site for deployment
+
+    steps: 
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+      - uses: rodrigo-md/pull-request-visualizer-action/packages/generate-site@testing-action
+        with:
+          wait: 10000
+          commit-hash: ${{ github.event.pull_request.head.sha }}
+          base-directory: ${{ github.workspace }}
+      - run: pwd && ls -a
+      - id: netlify-deployment
+        uses: jsmrcaga/action-netlify-deploy@v1.7.2
+        with:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_DEPLOY_TO_PROD: false
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          build_directory: .pr-site/publish
+          build_command: echo hello world
+          deploy_alias: pull-request-visualizer-${{ github.event.number }}
+      - run: echo '${{ steps.netlify-deployment.outputs.NETLIFY_PREVIEW_URL }}'
+      - uses: rodrigo-md/pull-request-visualizer-action/packages/notify-deployment@testing-action
+        with:
+          website-url: ${{ steps.netlify-deployment.outputs.NETLIFY_PREVIEW_URL }}
+          GITHUB_TOKEN: ${{ github.token }}
